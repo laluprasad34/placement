@@ -1,0 +1,69 @@
+import java.util.*;
+
+class ATM {
+    static int balance = 10000;
+    static int pin = 1234;
+    static int attempts = 3;
+    static int dailyLimit = 5000;
+    static int withdrawnToday = 0;
+    static List<String> miniStatement = new ArrayList<>();
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        while (attempts > 0) {
+            System.out.print("Enter PIN: ");
+            int inputPin = sc.nextInt();
+
+            if (inputPin == pin) {
+                menu(sc);
+                return;
+            } else {
+                attempts--;
+                System.out.println("Wrong PIN! Attempts left: " + attempts);
+            }
+        }
+        System.out.println("Card Blocked!");
+    }
+
+    static void menu(Scanner sc) {
+        while (true) {
+            System.out.println("\n1. Withdraw\n2. Deposit\n3. Balance\n4. Mini Statement\n5. Exit");
+            int choice = sc.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter amount: ");
+                    int amt = sc.nextInt();
+                    if (amt <= balance && withdrawnToday + amt <= dailyLimit) {
+                        balance -= amt;
+                        withdrawnToday += amt;
+                        miniStatement.add("Withdraw: " + amt);
+                        System.out.println("Withdrawn!");
+                    } else {
+                        System.out.println("Limit exceeded or insufficient balance");
+                    }
+                    break;
+
+                case 2:
+                    System.out.print("Enter amount: ");
+                    int dep = sc.nextInt();
+                    balance += dep;
+                    miniStatement.add("Deposit: " + dep);
+                    break;
+
+                case 3:
+                    System.out.println("Balance: " + balance);
+                    break;
+
+                case 4:
+                    for (String s : miniStatement)
+                        System.out.println(s);
+                    break;
+
+                case 5:
+                    return;
+            }
+        }
+    }
+}
