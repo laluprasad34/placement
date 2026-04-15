@@ -1,0 +1,97 @@
+/**Library Management System 
+Develop a system to manage books in a library. 
+Features: 
+• Add books (Book ID, Title, Author)  
+• Issue book to a user  
+• Return book  
+• Display available books  
+• Search by title or author  
+Constraints: 
+• A book cannot be issued if already issued  
+• Maintain issue status  **/
+
+
+
+import java.util.*;
+
+class Book {
+    int id;
+    String title, author;
+    boolean issued;
+
+    Book(int id, String title, String author) {
+        this.id = id;
+        this.title = title;
+        this.author = author;
+        this.issued = false;
+    }
+}
+
+public class LibrarySystem {
+    static Scanner sc = new Scanner(System.in);
+    static List<Book> books = new ArrayList<>();
+
+    public static void main(String[] args) {
+        while (true) {
+            System.out.println("\n1.Add 2.Issue 3.Return 4.Display 5.Search 6.Exit");
+            int ch = sc.nextInt();
+            sc.nextLine();
+
+            switch (ch) {
+                case 1:
+                    System.out.print("Enter ID, Title, Author: ");
+                    int id = sc.nextInt();
+                    sc.nextLine();
+                    String title = sc.nextLine();
+                    String author = sc.nextLine();
+                    books.add(new Book(id, title, author));
+                    break;
+
+                case 2:
+                    System.out.print("Enter Book ID: ");
+                    int issueId = sc.nextInt();
+                    for (Book b : books) {
+                        if (b.id == issueId) {
+                            if (!b.issued) {
+                                b.issued = true;
+                                System.out.println("Book Issued");
+                            } else {
+                                System.out.println("Already Issued");
+                            }
+                        }
+                    }
+                    break;
+
+                case 3:
+                    System.out.print("Enter Book ID: ");
+                    int returnId = sc.nextInt();
+                    for (Book b : books) {
+                        if (b.id == returnId) {
+                            b.issued = false;
+                            System.out.println("Book Returned");
+                        }
+                    }
+                    break;
+
+                case 4:
+                    for (Book b : books) {
+                        if (!b.issued)
+                            System.out.println(b.id + " " + b.title + " " + b.author);
+                    }
+                    break;
+
+                case 5:
+                    System.out.print("Enter title/author: ");
+                    String key = sc.nextLine();
+                    for (Book b : books) {
+                        if (b.title.contains(key) || b.author.contains(key))
+                            System.out.println(b.title + " by " + b.author);
+                    }
+                    break;
+
+                case 6:
+                    System.exit(0);
+            }
+        }
+    }
+}
