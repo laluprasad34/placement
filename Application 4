@@ -1,0 +1,54 @@
+/**Online Quiz Application 
+Create a quiz system where: 
+• Questions are stored with options and answers  
+• User attempts quiz  
+• Score is calculated at the end  
+Features: 
+• Multiple-choice questions  
+• Timer (optional)  
+• Display correct answers after completion  **/
+
+
+
+
+
+import java.util.*;
+
+class Question {
+    String question;
+    String[] options;
+    int answer;
+
+    Question(String q, String[] opt, int ans) {
+        question = q;
+        options = opt;
+        answer = ans;
+    }
+}
+
+public class QuizApp {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        List<Question> quiz = new ArrayList<>();
+        quiz.add(new Question("Capital of India?",
+                new String[]{"1.Delhi", "2.Mumbai", "3.Chennai", "4.Kolkata"}, 1));
+
+        quiz.add(new Question("2 + 2 = ?",
+                new String[]{"1.3", "2.4", "3.5", "4.6"}, 2));
+
+        int score = 0;
+
+        for (Question q : quiz) {
+            System.out.println(q.question);
+            for (String opt : q.options)
+                System.out.println(opt);
+
+            int ans = sc.nextInt();
+            if (ans == q.answer)
+                score++;
+        }
+
+        System.out.println("Your Score: " + score + "/" + quiz.size());
+    }
+}
