@@ -1,0 +1,70 @@
+import java.io.*;
+import java.util.*;
+
+class ContactManager {
+    static final String FILE = "contacts.txt";
+
+    public static void main(String[] args) throws Exception {
+        Scanner sc = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("\n1.Add 2.View 3.Search 4.Delete 5.Exit");
+            int ch = sc.nextInt();
+            sc.nextLine();
+
+            switch (ch) {
+                case 1:
+                    FileWriter fw = new FileWriter(FILE, true);
+                    System.out.print("Name: ");
+                    String name = sc.nextLine();
+                    System.out.print("Phone: ");
+                    String phone = sc.nextLine();
+                    fw.write(name + "," + phone + "\n");
+                    fw.close();
+                    break;
+
+                case 2:
+                    BufferedReader br = new BufferedReader(new FileReader(FILE));
+                    String line;
+                    while ((line = br.readLine()) != null)
+                        System.out.println(line);
+                    br.close();
+                    break;
+
+                case 3:
+                    System.out.print("Search name: ");
+                    String s = sc.nextLine();
+                    br = new BufferedReader(new FileReader(FILE));
+                    while ((line = br.readLine()) != null)
+                        if (line.contains(s))
+                            System.out.println(line);
+                    br.close();
+                    break;
+
+                case 4:
+                    System.out.print("Delete name: ");
+                    String del = sc.nextLine();
+                    File input = new File(FILE);
+                    File temp = new File("temp.txt");
+
+                    br = new BufferedReader(new FileReader(input));
+                    BufferedWriter bw = new BufferedWriter(new FileWriter(temp));
+
+                    while ((line = br.readLine()) != null) {
+                        if (!line.contains(del)) {
+                            bw.write(line);
+                            bw.newLine();
+                        }
+                    }
+                    br.close();
+                    bw.close();
+                    input.delete();
+                    temp.renameTo(input);
+                    break;
+
+                case 5:
+                    return;
+            }
+        }
+    }
+}
