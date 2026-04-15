@@ -1,0 +1,51 @@
+import java.util.*;
+
+class ECommerce {
+    static Map<String, Integer> catalog = new HashMap<>();
+    static Map<String, Integer> cart = new HashMap<>();
+
+    public static void main(String[] args) {
+        catalog.put("Laptop", 50000);
+        catalog.put("Phone", 20000);
+        catalog.put("Headphones", 2000);
+
+        Scanner sc = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("\n1.Add 2.Remove 3.View Cart 4.Checkout 5.Exit");
+            int ch = sc.nextInt();
+            sc.nextLine();
+
+            switch (ch) {
+                case 1:
+                    System.out.println("Products: " + catalog);
+                    String p = sc.nextLine();
+                    if (catalog.containsKey(p))
+                        cart.put(p, cart.getOrDefault(p, 0) + 1);
+                    break;
+
+                case 2:
+                    System.out.print("Enter product: ");
+                    String r = sc.nextLine();
+                    cart.remove(r);
+                    break;
+
+                case 3:
+                    System.out.println(cart);
+                    break;
+
+                case 4:
+                    int total = 0;
+                    for (String item : cart.keySet())
+                        total += catalog.get(item) * cart.get(item);
+
+                    if (total > 50000) total *= 0.9;
+                    System.out.println("Total: " + total);
+                    break;
+
+                case 5:
+                    return;
+            }
+        }
+    }
+}
